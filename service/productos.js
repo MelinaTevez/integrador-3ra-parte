@@ -18,9 +18,13 @@ const guardarProducto = async (producto) => {
     return productoGuardado
 }
 
+const borrarProducto = async id => {
+    const productoEliminado = await model.deleteProducto(id)
+    return productoEliminado
+}
 module.exports = {
     obtenerProducto,
     obtenerProductos,
     guardarProducto,
-    
+    borrarProducto
 }

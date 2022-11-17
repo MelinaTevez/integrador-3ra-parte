@@ -22,8 +22,25 @@ const guardarProductos = async (req,res)=> {
 const actualizarProducto = (req,res)=> {
     res.send('Soy un controlador re piola')
 }
-const borrarProducto = (req,res)=> {
-    res.send('Soy un controlador re piola')
+const borrarProducto = async (req,res)=> {
+    const {id} = req.params
+
+    if(!id){
+        res.status(400).json(
+            {
+                borrado: false,
+                msg: 'No paso el ID'
+            })
+
+    } 
+
+    const productoBorrado = await service.borrarProducto(id)
+    res.status(200).json(
+        {
+            borrado: true,
+            msg: 'Borrado correctamente', 
+            productoBorrado
+        })
 }
 
 module.exports = {
