@@ -46,8 +46,13 @@ class ProductoModelMongoDB {
     /* CRUD -> R: Read ALL -> http method GET */
     async readProductos() {
         
-        const productos = await ProductoModel.find({})
-        return productos
+        try {
+            
+            const productos = await ProductoModel.find({})
+            return productos
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     /* CRUD -> R: Read ONE -> http method GET */
@@ -64,7 +69,16 @@ class ProductoModelMongoDB {
 
     /* CRUD -> U: UPDATE -> http method PUT */
     async updateProducto(id, producto) {
-        
+        try {
+           const resultado = await ProductoModel.updateOne({_id: id},{$set: producto})
+            console.log(resultado)
+
+            const productoActualizado = await ProductoModel.findById(id)
+            return{resultado, productoActualizado}
+
+        } catch (error) {
+            console.log(`Error en updateProducto ${error}`)
+        }
     }
 
     /* CRUD -> D: DELETE -> http method DELETE */

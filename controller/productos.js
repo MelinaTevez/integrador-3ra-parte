@@ -19,8 +19,14 @@ const guardarProductos = async (req,res)=> {
 
 
 }
-const actualizarProducto = (req,res)=> {
-    res.send('Soy un controlador re piola')
+const actualizarProducto = async (req,res)=> {
+    const {id }= req.params
+    const producto = req.body
+
+    const productoActualizado = await service.actualizarProducto(id, producto)
+
+    res.status(200).json({productoActualizado})
+    
 }
 const borrarProducto = async (req,res)=> {
     const {id} = req.params
