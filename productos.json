@@ -9,5 +9,16 @@
 		"foto": "fotoAA.jpg",
 		"envio": "true",
 		"id": "1"
+	},
+	{
+		"nombre": "Producto 5",
+		"precio": "123",
+		"stock": "2",
+		"marca": "Marca 5",
+		"categoria": "Categoria 5",
+		"detalles": "Detalle 5",
+		"foto": "foto5.pnj",
+		"envio": "true",
+		"id": "11"
 	}
 ]
