@@ -250,8 +250,6 @@ body {
 .container-alta {
   padding: 10px;
   /* DROP AREA */
-  /*     #foto {
-         /*  display: none; */
 }
 .container-alta h1, .container-alta h2 {
   color: blue;
@@ -315,6 +313,9 @@ body {
   cursor: pointer;
   border-radius: 5px;
   border-radius: 1px solid #ccc;
+}
+.container-alta #foto {
+  display: none;
 }
 .container-alta #gallery img {
   width: 100px;

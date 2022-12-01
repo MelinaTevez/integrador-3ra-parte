@@ -1,4 +1,4 @@
-const URL_PRODUCTOS = 'https://615d8b5212571a00172076ba.mockapi.io/productos/'
+const URL_PRODUCTOS = 'https://633eca1d83f50e9ba3b84b17.mockapi.io/prueba/'
 
 async function obtenerProductosService() {
     let productos = await get(URL_PRODUCTOS)
