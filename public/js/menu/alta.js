@@ -26,6 +26,7 @@ progressBar = null
     this.button = document.querySelector("main form button")
 
     this.button.disabled = true
+    //console.log(this.inputs)
 
     this.inputs.forEach((input, index) => {
       if (input.type != "checkbox") {
@@ -114,6 +115,7 @@ progressBar = null
   // Mostrar u ocultar el mensaje
   setCustomValidityJS(mensaje, index) {
     let divs = document.querySelectorAll("form .mensaje-validacion")
+    //console.log(divs)
     divs[index].innerHTML = mensaje
     divs[index].style.display = mensaje ? "block" : "none"
   }
@@ -127,8 +129,8 @@ progressBar = null
       marca: this.inputs[3].value,
       categoria: this.inputs[4].value,
       detalles: this.inputs[5].value,
-      foto: this.imagenSubida ? `/uploads/${this.imagenSubida}` : '' ,
-      envio: this.inputs[7].checked,
+      foto: this.imagenSubida ? `/uploads/${this.imagenSubida}`: '/uploads/sinimagen.jpg',
+      envio: this.inputs[6].checked,
     }
   }
 
