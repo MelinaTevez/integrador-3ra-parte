@@ -19,6 +19,8 @@ const ProductoModel = mongoose.model('productos', productoSchema)
 
 class ProductoModelMongoDB {
 
+    static pk = '_id'
+
     async conectarDB() {
 
         try {
@@ -27,14 +29,34 @@ class ProductoModelMongoDB {
         } catch (error) {
             console.log(`MongoDB error al conectar ${error}`)
         }
+    }  
+
+    genIdKey(obj) {
+
+        if(Array.isArray(obj)) {
+            for(let i=0; i<obj.length; i++) {
+                obj[i].id = obj[i][this.pk]
+            }
+        }
+        else {
+            obj.id = obj[this.pk]
+        }
+
+        return obj
     }
+
 
     /* CRUD -> C: Create -> http method POST */
     async createProducto(producto) {
 
         try {
+            
             const productoSave = new ProductoModel(producto)
             await productoSave.save()
+
+            const productos = await ProductoModel.find({}).lean()
+            const productoGuardado = productos[productos.length-1]
+            return this.genIdKey(productoGuardado)
 
             return productoSave
             
@@ -45,50 +67,59 @@ class ProductoModelMongoDB {
 
     /* CRUD -> R: Read ALL -> http method GET */
     async readProductos() {
-        
         try {
-            
-            const productos = await ProductoModel.find({})
-            return productos
+            const productos = await ProductoModel.find({}).lean()
+            return this.genIdKey(productos)
         } catch (error) {
-            console.log(error)
+            console.log(`Error en readProductos: ${error}`)
+            return []
         }
+        
     }
 
     /* CRUD -> R: Read ONE -> http method GET */
     async readProducto(id) {
 
         try {
-            const producto = await ProductoModel.findById(id)
-            return producto
+            const producto = await ProductoModel.findById(id).lean()
+            return this.genIdKey(producto)
         } catch (error) {
-            console.log(error)
+            console.log(`Error en readProducto: ${error}`)
+            return {}
         }
         
     }
 
     /* CRUD -> U: UPDATE -> http method PUT */
     async updateProducto(id, producto) {
+
         try {
-           const resultado = await ProductoModel.updateOne({_id: id},{$set: producto})
+            
+            const resultado = await ProductoModel.updateOne({_id: id},{$set: producto})
             console.log(resultado)
 
-            const productoActualizado = await ProductoModel.findById(id)
-            return{resultado, productoActualizado}
+            const productoActualizado = await ProductoModel.findById(id).lean()
 
+            return this.genIdKey(productoActualizado)
         } catch (error) {
-            console.log(`Error en updateProducto ${error}`)
+            console.log(`Error en updateProducto: ${error}`)
+            return {}
         }
+        
     }
 
     /* CRUD -> D: DELETE -> http method DELETE */
     async deleteProducto(id) {
+        
         try {
-            await ProductoModel.findByIdAndDelete(id)
-            return 'Ok deleteProducto'
+            //await ProductoModel.deleteOne({_id: id})    
+            const productoBorrado = await ProductoModel.findByIdAndDelete(id)
+            return this.genIdKey(productoBorrado)
+
         } catch (error) {
-            console.log(`Error en deleteProductos: ${error}`)
-        }
+            console.log(`Error en deleteProducto: ${error}`)
+            return {}
+        }   
     }
 }
 
